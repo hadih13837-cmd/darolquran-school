@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>دارالقرآن الکریم | واحد شهید خرازی</title>
+    <!-- فونت وزیرمتن برای نمایش بهتر فارسی -->
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    <!-- آیکون‌ها -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a5276;
+            --primary-light: #2980b9;
+            --secondary: #27ae60;
+            --accent: #f39c12;
+            --danger: #e74c3c;
+            --bg: #f4f7f6;
+            --card-bg: #ffffff;
+            --text: #2c3e50;
+            --text-light: #7f8c8d;
+            --shadow: 0 8px 30px rgba(0,0,0,0.08);
+            --shadow-hover: 0 15px 40px rgba(0,0,0,0.15);
+            --radius: 20px;
+            --radius-sm: 12px;
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --font: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+            padding-bottom: 70px;
+        }
+
+        /* ============ هدر و ناوبری ============ */
+        .main-header {
+            background: linear-gradient(135deg, #0d3b5e 0%, #1a5276 40%, #1f6f8b 100%);
+            color: white;
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(135deg, var(--accent), #e67e22);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4);
+            flex-shrink: 0;
+            animation: pulse-logo 3s infinite;
+        }
+
+        @keyframes pulse-logo {
+            0%, 100% { transform: scale(1); box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 8px 25px rgba(243, 156, 18, 0.6); }
+        }
+
+        .logo-text h1 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 0;
+        }
+
+        .logo-text p {
+            font-size: 0.8rem;
+            opacity: 0.85;
+            font-weight: 400;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn-header {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.25);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: var(--font);
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            backdrop-filter: blur(5px);
+            white-space: nowrap;
+        }
+
+        .btn-header:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-header.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #1a1a2e;
+            font-weight: 700;
+        }
+
+        /* نوار ناوبری موبایل (کوبایل) */
+        .mobile-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 5px calc(10px + env(safe-area-inset-bottom));
+            z-index: 999;
+            box-shadow: 0 -5px 30px rgba(0,0,0,0.1);
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 5px 12px;
+            border-radius: 15px;
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.7rem;
+            font-weight: 500;
+            position: relative;
+            min-width: 55px;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        .nav-item i {
+            font-size: 1.4rem;
+            transition: var(--transition);
+        }
+
+        .nav-item.active {
+            color: var(--primary-light);
+            background: rgba(41, 128, 185, 0.08);
+        }
+
+        .nav-item.active i {
+            transform: translateY(-3px);
+            color: var(--primary-light);
+            filter: drop-shadow(0 5px 8px rgba(41, 128, 185, 0.4));
+        }
+
+        .nav-item:not(.active):active {
+            transform: scale(0.9);
+        }
+
+        .nav-badge {
+            position: absolute;
+            top: -2px;
+            right: 8px;
+            background: var(--danger);
+            color: white;
+            font-size: 0.6rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            border: 2px solid white;
+        }
+
+        /* ============ محتوای اصلی ============ */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 16px;
+            animation: fadeIn 0.6s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ============ بخش خوش آمد ============ */
+        .welcome-banner {
+            background: linear-gradient(135deg, #1a5276, #27ae60);
+            color: white;
+            border-radius: var(--radius);
+            padding: 30px 25px;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .welcome-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -30%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 6s infinite;
+        }
+
+        .welcome-banner::after {
+            content: '';
+            position: absolute;
+            bottom: -40%;
+            left: -20%;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 8s infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-20px, -15px); }
+        }
+
+        .welcome-banner h2 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .welcome-banner p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ============ کارت‌های آماری ============ */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-sm);
+            padding: 18px 15px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: default;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .stat-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-size: 1.3rem;
+            color: white;
+        }
+
+        .stat-icon.blue { background: linear-gradient(135deg, #3498db, #2980b9); }
+        .stat-icon.green { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+        .stat-icon.orange { background: linear-gradient(135deg, #f39c12, #e67e22); }
+        .stat-icon.purple { background: linear-gradient(135deg, #9b59b6, #8e44ad); }
+
+        .stat-number {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        /* ============ بخش‌ها ============ */
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 18px;
+            color: var(--primary);
+        }
+
+        .section-title i {
+            color: var(--accent);
+            font-size: 1.4rem;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(to left, var(--primary-light), transparent);
+            border-radius: 2px;
+        }
+
+        /* ============ کارت‌های درس ============ */
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .subject-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-sm);
+            padding: 20px 15px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .subject-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .subject-card:hover::before,
+        .subject-card:active::before {
+            opacity: 1;
+        }
+
+        .subject-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .subject-card:active {
+            transform: scale(0.97);
+        }
+
+        .subject-emoji {
+            font-size: 2.2rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .subject-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+
+        .subject-grade {
+            font-size: 0.7rem;
+            color: var(--text-light);
+            margin-top: 3px;
+        }
+
+        /* ============ بخش قرآن ============ */
+        .quran-section {
+            background: linear-gradient(135deg, #1a3a5c, #2c3e50);
+            border-radius: var(--radius);
+            padding: 25px;
+            margin-bottom: 25px;
+            color: white;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quran-section::after {
+            content: '﴾﴿';
+            position: absolute;
+            bottom: 10px;
+            left: 20px;
+            font-size: 4rem;
+            opacity: 0.15;
+            color: #f1c40f;
+            font-family: 'Vazirmatn', sans-serif;
+        }
+
+        .quran-verse {
+            font-size: 1.1rem;
+            font-weight: 500;
+            text-align: center;
+            margin: 15px 0;
+            font-style: italic;
+            color: #f1c40f;
+        }
+
+        .quran-ref {
+            font-size: 0.8rem;
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        /* ============ اطلاعیه‌ها ============ */
+        .announcements {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .announcement-item {
+            background: var(--card-bg);
+            border-radius: var(--radius-sm);
+            padding: 15px 18px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            transition: var(--transition);
+            cursor: pointer;
+            border-right: 4px solid var(--primary-light);
+        }
+
+        .announcement-item:hover {
+            transform: translateX(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .announcement-icon {
+            width: 40px;
+            height: 40px;
+            min-width: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: white;
+        }
+
+        .announcement-icon.blue { background: #3498db; }
+        .announcement-icon.green { background: #2ecc71; }
+        .announcement-icon.orange { background: #f39c12; }
+        .announcement-icon.red { background: #e74c3c; }
+
+        .announcement-content h4 {
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .announcement-content p {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        /* ============ فرم تماس / ورود ============ */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+            animation: fadeInOverlay 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        @keyframes fadeInOverlay {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal {
+            background: white;
+            border-radius: var(--radius);
+            padding: 25px;
+            width: 90%;
+            max-width: 420px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            animation: slideUp 0.4s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .modal-header h3 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .modal-close {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: none;
+            background: #f0f0f0;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            color: var(--text);
+        }
+
+        .modal-close:hover {
+            background: var(--danger);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--text);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: var(--radius-sm);
+            font-family: var(--font);
+            font-size: 0.9rem;
+            transition: var(--transition);
+            background: #fafafa;
+            color: var(--text);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(41, 128, 185, 0.1);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: var(--radius-sm);
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            color: white;
+            font-family: var(--font);
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            letter-spacing: 0.5px;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(41, 128, 185, 0.4);
+        }
+
+        /* ============ ریسپانسیو ============ */
+        @media (max-width: 768px) {
+            .header-top {
+                padding: 10px 12px;
+            }
+
+            .logo-icon {
+                width: 45px;
+                height: 45px;
+                font-size: 22px;
+            }
+
+            .logo-text h1 {
+                font-size: 1rem;
+            }
+
+            .logo-text p {
+                font-size: 0.65rem;
+            }
+
+            .btn-header span {
+                display: none;
+            }
+
+            .btn-header {
+                padding: 8px 12px;
+                font-size: 1rem;
+            }
+
+            .welcome-banner {
+                padding: 20px 15px;
+            }
+
+            .welcome-banner h2 {
+                font-size: 1.2rem;
+            }
+
+            .subjects-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 10px;
+            }
+
+            .subject-card {
+                padding: 15px 10px;
+            }
+
+            .subject-emoji {
+                font-size: 1.6rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .stat-card {
+                padding: 12px 10px;
+            }
+
+            .main-content {
+                padding: 12px 10px;
+            }
+
+            .quran-section {
+                padding: 18px 15px;
+            }
+
+            .quran-verse {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-nav {
+                display: none;
+            }
+            body {
+                padding-bottom: 0;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .subjects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .logo-text h1 {
+                font-size: 0.85rem;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* اسکرول‌بار سفارشی */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f0f0f0;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-light);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==================== هدر ==================== -->
+    <header class="main-header">
+        <div class="header-top">
+            <div class="logo-section">
+                <div class="logo-icon">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>دارالقرآن الکریم</h1>
+                    <p>واحد شهید خرازی | متوسطه اول</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="btn-header" onclick="showLoginModal()" title="ورود به حساب">
+                    <i class="fas fa-user"></i> <span>ورود</span>
+                </button>
+                <button class="btn-header active" onclick="showContactModal()" title="تماس با مدرسه">
+                    <i class="fas fa-phone"></i> <span>تماس</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== محتوای اصلی ==================== -->
+    <main class="main-content">
+
+        <!-- بنر خوش آمد -->
+        <div class="welcome-banner">
+            <h2>📚 به دارالقرآن الکریم خوش آمدید</h2>
+            <p>واحد شهید خرازی | متوسطه اول (پایه هفتم تا نهم) | آموزش همه دروس با رویکرد قرآنی</p>
+        </div>
+
+        <!-- آمار -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon blue"><i class="fas fa-users"></i></div>
+                <div class="stat-number">۳۲۰</div>
+                <div class="stat-label">دانش‌آموز</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon green"><i class="fas fa-chalkboard-teacher"></i></div>
+                <div class="stat-number">۲۸</div>
+                <div class="stat-label">معلم</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon orange"><i class="fas fa-book"></i></div>
+                <div class="stat-number">۱۲</div>
+                <div class="stat-label">درس فعال</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon purple"><i class="fas fa-graduation-cap"></i></div>
+                <div class="stat-number">۹۸٪</div>
+                <div class="stat-label">قبولی</div>
+            </div>
+        </div>
+
+        <!-- بخش دروس -->
+        <div class="section-title">
+            <i class="fas fa-book-reader"></i>
+            <span>دروس پایه‌های هفتم تا نهم</span>
+        </div>
+
+        <div class="subjects-grid">
+            <div class="subject-card" onclick="alert('📖 ریاضیات - پایه هفتم، هشتم، نهم')">
+                <span class="subject-emoji">📐</span>
+                <div class="subject-name">ریاضیات</div>
+                <div class="subject-grade">هفتم تا نهم</div>
+            </div>
+            <div class="subject-card" onclick="alert('🔬 علوم تجربی - پایه هفتم، هشتم، نهم')">
+                <span class="subject-emoji">🔬</span>
+                <div class="subject-name">علوم تجربی</div>
+                <div class="subject-grade">هفتم تا نهم</div>
+            </div>
+            <div class="subject-card" onclick="alert('📖 ادبیات فارسی - پایه هفتم، هشتم، نهم')">
+                <span class="subject-emoji">📖</span>
+                <div class="subject-name">ادبیات فارسی</div>
+                <div class="subject-grade">هفتم تا نهم</div>
+            </div>
+            <div class="subject-card" onclick="alert('🕌 قرآن و معارف - پایه هفتم، هشتم، نهم')">
+                <span class="subject-emoji">🕌</span>
+                <div class="subject-name">قرآن و معارف</div>
+                <div class="subject-grade">هفتم تا نهم</div>
+            </div>
+            <div class="subject-card" onclick="alert('🇬🇧 زبان انگلیسی - پایه هفتم، هشتم، نهم')">
+                <span class="subject-emoji">🇬🇧</span>
+                <div class="subject-name">زبان انگلیسی</div>
+                <div class="subject-grade">هفتم تا نهم</div>
+            </div>
+            <div class="subject-card" onclick="alert('🇸🇦 عربی - پایه هفتم، هشتم، نهم')">
+                <span class="subject-emoji">🇸🇦</span>
+                <div class="subject-name">عربی</div>
+                <div class="subject-grade">هفتم تا نهم</div>
+            </div>
+            <div class="subject-card" onclick="alert('🧠 مطالعات اجتماعی - پایه هفتم، هشتم، نهم')">
+                <span class="subject-emoji">🧠</span>
+                <div class="subject-name">مطالعات اجتماعی</div>
+                <div class="subject-grade">هفتم تا نهم</div>
+            </div>
+            <div class="subject-card" onclick="alert('💻 کار و فناوری - پایه هفتم، هشتم، نهم')">
+                <span class="subject-emoji">💻</span>
+                <div class="subject-name">کار و فناوری</div>
+                <div class="subject-grade">هفتم تا نهم</div>
+            </div>
+            <div class="subject-card" onclick="alert('🎨 هنر - پایه هفتم، هشتم، نهم')">
+                <span class="subject-emoji">🎨</span>
+                <div class="subject-name">هنر</div>
+                <div class="subject-grade">هفتم تا نهم</div>
+            </div>
+            <div class="subject-card" onclick="alert('🏃‍♂️ تربیت بدنی - پایه هفتم، هشتم، نهم')">
+                <span class="subject-emoji">🏃‍♂️</span>
+                <div class="subject-name">تربیت بدنی</div>
+                <div class="subject-grade">هفتم تا نهم</div>
+            </div>
+            <div class="subject-card" onclick="alert('💡 تفکر و سبک زندگی - پایه هفتم و هشتم')">
+                <span class="subject-emoji">💡</span>
+                <div class="subject-name">تفکر و سبک زندگی</div>
+                <div class="subject-grade">هفتم و هشتم</div>
+            </div>
+            <div class="subject-card" onclick="alert('📝 نگارش فارسی - پایه هفتم، هشتم، نهم')">
+                <span class="subject-emoji">📝</span>
+                <div class="subject-name">نگارش فارسی</div>
+                <div class="subject-grade">هفتم تا نهم</div>
+            </div>
+        </div>
+
+        <!-- بخش قرآن -->
+        <div class="quran-section">
+            <div style="text-align: center; margin-bottom: 10px;">
+                <i class="fas fa-quran" style="font-size: 2.5rem; color: #f1c40f;"></i>
+            </div>
+            <div class="quran-verse">
+                ﴿وَقُل رَّبِّ زِدْنِي عِلْمًا﴾
+            </div>
+            <div class="quran-ref">
+                سوره طه - آیه ۱۱۴ | و بگو: پروردگارا، بر دانش من بیفزا
+            </div>
+        </div>
+
+        <!-- اطلاعیه‌ها -->
+        <div class="section-title">
+            <i class="fas fa-bullhorn"></i>
+            <span>اطلاعیه‌های مدرسه</span>
+        </div>
+
+        <div class="announcements">
+            <div class="announcement-item" onclick="alert('📅 جلسه اولیا و مربیان - چهارشنبه ۱۵ اسفند')">
+                <div class="announcement-icon blue"><i class="fas fa-calendar-alt"></i></div>
+                <div class="announcement-content">
+                    <h4>جلسه اولیا و مربیان</h4>
+                    <p>چهارشنبه ۱۵ اسفند - ساعت ۱۶:۰۰ - سالن اجتماعات</p>
+                </div>
+            </div>
+            <div class="announcement-item" onclick="alert('🏆 مسابقات قرآنی - ثبت نام تا ۲۰ اسفند')">
+                <div class="announcement-icon green"><i class="fas fa-trophy"></i></div>
+                <div class="announcement-content">
+                    <h4>مسابقات قرآنی دانش‌آموزی</h4>
+                    <p>ثبت نام تا ۲۰ اسفند - در رشته‌های حفظ، قرائت و ترتیل</p>
+                </div>
+            </div>
+            <div class="announcement-item" onclick="alert('📝 امتحانات میان ترم از ۲۵ اسفند')">
+                <div class="announcement-icon orange"><i class="fas fa-file-alt"></i></div>
+                <div class="announcement-content">
+                    <h4>برنامه امتحانات میان ترم</h4>
+                    <p>شروع امتحانات از ۲۵ اسفند - برنامه کامل در سامانه</p>
+                </div>
+            </div>
+            <div class="announcement-item" onclick="alert('🔔 یادآوری: تحویل پروژه علوم تا ۱۸ اسفند')">
+                <div class="announcement-icon red"><i class="fas fa-bell"></i></div>
+                <div class="announcement-content">
+                    <h4>یادآوری مهم</h4>
+                    <p>تحویل پروژه علوم تجربی تا ۱۸ اسفند ماه</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- اطلاعات تماس -->
+        <div class="section-title">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>اطلاعات مدرسه</span>
+        </div>
+
+        <div style="background: var(--card-bg); border-radius: var(--radius-sm); padding: 20px; box-shadow: var(--shadow); display: flex; flex-wrap: wrap; gap: 15px; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div class="stat-icon blue" style="margin: 0;"><i class="fas fa-phone"></i></div>
+                <div>
+                    <strong style="display: block; font-size: 0.85rem;">تلفن تماس</strong>
+                    <span style="font-size: 0.85rem; color: var(--text-light);">۰۲۱-۵۵۵۵۵۵۵۵</span>
+                </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div class="stat-icon green" style="margin: 0;"><i class="fas fa-envelope"></i></div>
+                <div>
+                    <strong style="display: block; font-size: 0.85rem;">ایمیل</strong>
+                    <span style="font-size: 0.85rem; color: var(--text-light);">info@darolquran-kharrazi.ir</span>
+                </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div class="stat-icon orange" style="margin: 0;"><i class="fas fa-map-marker-alt"></i></div>
+                <div>
+                    <strong style="display: block; font-size: 0.85rem;">آدرس</strong>
+                    <span style="font-size: 0.85rem; color: var(--text-light);">تهران، خیابان انقلاب</span>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ==================== ناوبری موبایل (کوبایل) ==================== -->
+    <nav class="mobile-nav" id="mobileNav">
+        <div class="nav-item active" onclick="navigateTo('home')">
+            <i class="fas fa-home"></i>
+            <span>خانه</span>
+        </div>
+        <div class="nav-item" onclick="navigateTo('lessons')">
+            <i class="fas fa-book-open"></i>
+            <span>دروس</span>
+        </div>
+        <div class="nav-item" onclick="navigateTo('quran')">
+            <i class="fas fa-quran"></i>
+            <span>قرآن</span>
+            <span class="nav-badge">۴</span>
+        </div>
+        <div class="nav-item" onclick="navigateTo('announcements')">
+            <i class="fas fa-bullhorn"></i>
+            <span>اطلاعیه‌ها</span>
+        </div>
+        <div class="nav-item" onclick="navigateTo('profile')">
+            <i class="fas fa-user-circle"></i>
+            <span>پروفایل</span>
+        </div>
+    </nav>
+
+    <!-- ==================== مودال ورود ==================== -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><i class="fas fa-sign-in-alt"></i> ورود به سامانه</h3>
+                <button class="modal-close" onclick="closeModal('loginModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <form onsubmit="event.preventDefault(); alert('✅ ورود با موفقیت انجام شد (نمونه)'); closeModal('loginModal');">
+                <div class="form-group">
+                    <label>کد ملی / نام کاربری</label>
+                    <input type="text" class="form-input" placeholder="کد ملی خود را وارد کنید" required>
+                </div>
+                <div class="form-group">
+                    <label>رمز عبور</label>
+                    <input type="password" class="form-input" placeholder="رمز عبور" required>
+                </div>
+                <button type="submit" class="btn-submit">ورود به سامانه</button>
+                <p style="text-align: center; margin-top: 12px; font-size: 0.75rem; color: var(--text-light);">
+                    فراموشی رمز عبور؟ <a href="#" style="color: var(--primary-light); text-decoration: none;">بازیابی رمز</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== مودال تماس ==================== -->
+    <div class="modal-overlay" id="contactModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><i class="fas fa-phone-alt"></i> تماس با مدرسه</h3>
+                <button class="modal-close" onclick="closeModal('contactModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div style="text-align: center; padding: 10px 0;">
+                <div class="stat-icon green" style="margin: 0 auto 15px; width: 60px; height: 60px; font-size: 1.8rem;">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <h4 style="font-weight: 800; margin-bottom: 10px;">ارتباط با دفتر مدرسه</h4>
+                <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 15px;">
+                    ساعات پاسخگویی: شنبه تا چهارشنبه ۷:۳۰ تا ۱۵:۳۰
+                </p>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <a href="tel:02155555555" class="btn-submit" style="text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                        <i class="fas fa-phone"></i> ۰۲۱-۵۵۵۵۵۵۵۵
+                    </a>
+                    <a href="mailto:info@darolquran-kharrazi.ir" class="btn-submit" style="text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; background: linear-gradient(135deg, #e67e22, #f39c12);">
+                        <i class="fas fa-envelope"></i> ارسال ایمیل
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // تابع نمایش مودال
+        function showLoginModal() {
+            document.getElementById('loginModal').classList.add('show');
+        }
+
+        function showContactModal() {
+            document.getElementById('contactModal').classList.add('show');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        }
+
+        // بستن مودال با کلیک روی پس زمینه
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('show');
+                }
+            });
+        });
+
+        // بستن مودال با کلید Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay.show').forEach(m => m.classList.remove('show'));
+            }
+        });
+
+        // ناوبری موبایل
+        function navigateTo(section) {
+            // حذف کلاس active از همه
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+
+            // اضافه کردن کلاس active به مورد انتخاب شده
+            event.currentTarget.classList.add('active');
+
+            // اسکرول به بخش مربوطه
+            switch(section) {
+                case 'home':
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    break;
+                case 'lessons':
+                    document.querySelector('.subjects-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    break;
+                case 'quran':
+                    document.querySelector('.quran-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    break;
+                case 'announcements':
+                    document.querySelector('.announcements').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    break;
+                case 'profile':
+                    showLoginModal();
+                    break;
+            }
+        }
+
+        // اسکرول خودکار برای تشخیص بخش فعال در ناوبری موبایل
+        window.addEventListener('scroll', function() {
+            const scrollPos = window.scrollY + 150;
+            const sections = [
+                { id: 'home', element: document.querySelector('.welcome-banner') },
+                { id: 'lessons', element: document.querySelector('.subjects-grid') },
+                { id: 'quran', element: document.querySelector('.quran-section') },
+                { id: 'announcements', element: document.querySelector('.announcements') }
+            ];
+
+            let activeSection = 'home';
+            sections.forEach(section => {
+                if (section.element && scrollPos >= section.element.offsetTop) {
+                    activeSection = section.id;
+                }
+            });
+
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.querySelector('span') && item.querySelector('span').textContent === getNavLabel(activeSection)) {
+                    item.classList.add('active');
+                }
+                // برای پروفایل که scroll ندارد
+                if (activeSection === 'home' && item.querySelector('span').textContent === 'خانه') {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        function getNavLabel(sectionId) {
+            const labels = {
+                'home': 'خانه',
+                'lessons': 'دروس',
+                'quran': 'قرآن',
+                'announcements': 'اطلاعیه‌ها',
+                'profile': 'پروفایل'
+            };
+            return labels[sectionId] || 'خانه';
+        }
+
+        // انیمیشن لمس برای موبایل
+        document.querySelectorAll('.subject-card, .announcement-item, .stat-card').forEach(card => {
+            card.addEventListener('touchstart', function() {
+                this.style.transform = 'scale(0.97)';
+            });
+            card.addEventListener('touchend', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+
+        // نمایش پیام خوش آمد در کنسول
+        console.log('📚 دارالقرآن الکریم - واحد شهید خرازی');
+        console.log('🏫 سایت آموزشی برای پایه‌های هفتم تا نهم');
+        console.log('📱 بهینه‌سازی شده برای موبایل و دسکتاپ');
+        console.log('✅ نسخه ۱.۰');
+    </script>
+
+</body>
+</html>

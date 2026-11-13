@@ -1,6 +1,6 @@
 /* Service worker: caches the app so it opens and works without internet.
    Bump VERSION whenever you change any file, so phones pick up the update. */
-const VERSION='juz30-v1';
+const VERSION='juz30-v2';
 const FILES=['./','index.html','manifest.webmanifest','fonts/amiri-regular.woff2',
   'icons/icon-192.png','icons/icon-512.png','icons/icon-maskable-512.png','icons/apple-touch-icon.png','icons/favicon-32.png'];
 

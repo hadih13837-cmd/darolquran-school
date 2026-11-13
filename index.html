@@ -91,7 +91,7 @@ h1,h2,h3,p{margin:0}
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 44 44'><g fill='none' stroke='%23ecd085' stroke-opacity='.22' stroke-width='1'><rect x='9' y='9' width='26' height='26'/><rect x='9' y='9' width='26' height='26' transform='rotate(45 22 22)'/></g></svg>");
   -webkit-mask-image:linear-gradient(to bottom,#000 20%,transparent 100%);mask-image:linear-gradient(to bottom,#000 20%,transparent 100%)}
 .hero-kicker{font-size:.85rem;letter-spacing:.04em;color:var(--hero-gold);font-weight:500}
-.hero-ar{font-family:var(--font-quran);font-weight:400;font-size:clamp(2.4rem,11vw,3.3rem);line-height:1.6;color:var(--hero-gold)}
+.hero-ar{font-family:var(--font-quran);font-weight:400;font-size:clamp(2.4rem,11vw,3.3rem);line-height:2;margin-top:10px;color:var(--hero-gold)}
 .hero-sub{font-size:.92rem;opacity:.9}
 .stats{margin-top:-38px;position:relative;display:flex;gap:16px;align-items:center}
 .ring{flex:none;position:relative;width:104px;height:104px}
@@ -235,6 +235,17 @@ h1,h2,h3,p{margin:0}
 @font-face{font-family:'Amiri';src:url('fonts/amiri-regular.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
 .install{display:flex;flex-direction:column;gap:8px;align-items:center;text-align:center}
 .install p{margin:0;color:var(--muted);font-size:.88rem}
+.ibar{position:fixed;z-index:15;left:0;right:0;bottom:calc(72px + env(safe-area-inset-bottom,0px));display:flex;justify-content:center;pointer-events:none;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.ibar-card{pointer-events:auto;width:100%;max-width:608px;display:flex;flex-direction:column;gap:10px;padding:14px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:20px;box-shadow:0 12px 32px rgba(0,0,0,.22);animation:ibar-in .35s ease-out}
+.ibar-head{display:flex;gap:12px;align-items:center}
+.ibar-head img{width:48px;height:48px;border-radius:12px;flex:none}
+.ibar-head b{display:block;font-size:1rem}
+.ibar-head span{display:block;font-size:.84rem;color:var(--muted);line-height:1.5}
+.ibar-acts{display:flex;gap:8px}
+.ibar-acts .btn{flex:1}
+@keyframes ibar-in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.ibar-card{animation:none}}
 </style>
 </head><body>
 <div class="wrap" id="wrap" dir="rtl" lang="fa">
@@ -430,7 +441,7 @@ var ui={q:'',sort:'mushaf',filter:'all',hide:false};
 function pageHome(){
   var t=totals(),cid=continueId(),h='';
   h+='<section class="hero"><p class="hero-kicker">قرآن کریم، جزء ۳۰</p>'
-    +'<h1 class="hero-ar" lang="ar" dir="rtl">جُزْءُ عَمَّ</h1>'
+    +'<h1 class="hero-ar" lang="ar" dir="rtl">جزء عم</h1>'
     +'<p class="hero-sub">سورهٔ حمد و ۳۷ سورهٔ جزء ۳۰، مجموعاً ۵۷۱ آیه</p></section>';
   h+='<section class="card stats">'+ring(t.pct)
     +'<div class="stat-lines"><span class="big">'+fa(t.verses)+' از '+fa(TOTAL)+' آیه</span>'
@@ -945,25 +956,99 @@ render(false);
 
 <script>
 (function(){
-  var deferred=null;
+  var deferred=null,shown=false,bar=null,fallbackTimer=null;
+  var KEY='juz30-install',COOLDOWN=3*24*3600*1000;
   var standalone=(window.matchMedia&&matchMedia('(display-mode: standalone)').matches)||window.navigator.standalone===true;
-  var ios=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+  var ua=navigator.userAgent||'';
+  var ios=/iphone|ipad|ipod/i.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+  var android=/android/i.test(ua);
+  function $(id){return document.getElementById(id);}
+
+  /* ---- reminder memory ---- */
+  function snoozed(){
+    try{var o=JSON.parse(localStorage.getItem(KEY)||'null');return !!(o&&o.t&&Date.now()-o.t<COOLDOWN);}catch(e){return false;}
+  }
+  function snooze(){try{localStorage.setItem(KEY,JSON.stringify({t:Date.now()}));}catch(e){}}
+
+  /* ---- where the bar may appear ---- */
+  function inExam(){return /^#(exam|continue)-/.test(location.hash);}
+  function gateOpen(){var g=$('gate');return !!(g&&!g.hidden);}
+  function canShow(){return !standalone&&!snoozed()&&!inExam()&&!gateOpen();}
+
+  function removeBar(){if(bar&&bar.parentNode)bar.parentNode.removeChild(bar);bar=null;shown=false;}
+
+  function mode(){
+    if(deferred)return 'prompt';
+    if(ios)return 'ios';
+    if(android&&fallbackReady)return 'manual';
+    return '';
+  }
+  var fallbackReady=false;
+
+  function build(m){
+    var title='برنامه را روی گوشی نصب کن';
+    var text,btns;
+    if(m==='prompt'){
+      text='آیکونش به صفحهٔ گوشی اضافه می‌شود و بدون اینترنت هم باز می‌شود.';
+      btns='<button type="button" class="btn primary" data-i="install">نصب برنامه</button><button type="button" class="btn" data-i="later">بعداً</button>';
+    }else if(m==='ios'){
+      text='در سافاری دکمهٔ اشتراک‌گذاری (مربع با فلش رو به بالا) را بزن و «Add to Home Screen» را انتخاب کن.';
+      btns='<button type="button" class="btn primary" data-i="later">متوجه شدم</button>';
+    }else{
+      text='منوی سه‌نقطهٔ کروم (بالای صفحه) را باز کن و «Install app» یا «Add to Home screen» را بزن.';
+      btns='<button type="button" class="btn primary" data-i="later">متوجه شدم</button>';
+    }
+    var d=document.createElement('div');
+    d.className='ibar';d.setAttribute('dir','rtl');d.setAttribute('lang','fa');
+    d.innerHTML='<div class="ibar-card" role="dialog" aria-labelledby="ibTitle"><div class="ibar-head"><img src="icons/icon-192.png" alt="" width="48" height="48">'
+      +'<div><b id="ibTitle">'+title+'</b><span>'+text+'</span></div></div><div class="ibar-acts">'+btns+'</div></div>';
+    d.addEventListener('click',function(e){
+      var t=e.target.closest('[data-i]');if(!t)return;
+      var a=t.getAttribute('data-i');
+      if(a==='install'&&deferred){
+        var ev=deferred;deferred=null;removeBar();
+        try{ev.prompt();if(ev.userChoice)ev.userChoice.then(function(c){if(!c||c.outcome!=='accepted')snooze();});}catch(err){snooze();}
+      }else{snooze();removeBar();}
+    });
+    return d;
+  }
+
+  function sync(){
+    var m=mode();
+    if(!canShow()||!m){if(shown&&!canShow())removeBar();return;}
+    if(shown)return;
+    bar=build(m);document.body.appendChild(bar);shown=true;
+  }
+
+  /* ---- home-page card (stays as a permanent entry point) ---- */
   function fill(){
-    var box=document.getElementById('installBox');
+    var box=$('installBox');
     if(!box||standalone){return;}
     if(deferred){
       box.innerHTML='<div class="install card"><p>می‌توانی این برنامه را روی گوشی نصب کنی و بدون اینترنت هم از آن استفاده کنی.</p><button type="button" class="btn primary block" id="installBtn">نصب برنامه</button></div>';
-      document.getElementById('installBtn').addEventListener('click',function(){
-        var d=deferred;deferred=null;fill();
-        d.prompt();
+      $('installBtn').addEventListener('click',function(){
+        var d=deferred;deferred=null;fill();removeBar();
+        try{d.prompt();}catch(e){}
       });
     }else if(ios){
       box.innerHTML='<div class="install card"><p>برای نصب در سافاری: دکمهٔ اشتراک‌گذاری را بزن و «Add to Home Screen» را انتخاب کن.</p></div>';
     }else{box.innerHTML='';}
   }
   window.__installHook=fill;
-  window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferred=e;fill();});
-  window.addEventListener('appinstalled',function(){deferred=null;standalone=true;fill();});
+
+  window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferred=e;fill();sync();});
+  window.addEventListener('appinstalled',function(){deferred=null;standalone=true;snooze();removeBar();fill();});
+  window.addEventListener('hashchange',function(){sync();});
+
+  /* wait until the microphone dialog is closed, then show the install bar */
+  var g=$('gate');
+  if(g&&window.MutationObserver){new MutationObserver(function(){setTimeout(sync,350);}).observe(g,{attributes:true,attributeFilter:['hidden']});}
+
+  /* Android Chrome that never sends the install event (already installed or unsupported): one manual hint */
+  fallbackTimer=setTimeout(function(){fallbackReady=true;sync();},6000);
+
+  setTimeout(sync,1200);
+
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost')){
     window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});
   }
